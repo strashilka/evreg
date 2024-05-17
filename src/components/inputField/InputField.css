@@ -1,0 +1,10 @@
+.input-field {
+  border-radius: 0;
+  border: 1px solid darkgray;
+  margin: 0 10px;
+}
+
+.input-field:focus {
+  border-radius: 0;
+  border: 1px solid darkgray;
+}

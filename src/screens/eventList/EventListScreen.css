@@ -1,0 +1,14 @@
+.scrollable-list {
+    display: flex;
+    /*max-height: 310px;*/
+    overflow-x: auto;
+}
+
+.events-list-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    margin: 0;
+    padding: 0;
+}

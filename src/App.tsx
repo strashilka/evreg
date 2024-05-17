@@ -1,24 +1,37 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
+import EventListScreen from './screens/eventList/EventListScreen';
+import {EventReg} from './date/EventReg';
 import './App.css';
 
 function App() {
+  const [eventsReg, setEventsReg] = useState<EventReg[] | []>([]);
+  useEffect(() => {
+    async function loadData() {
+      fetch('fake_data.json')
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Failed to load JSON file');
+          }
+          // console.log(response)
+          return response.json();
+        })
+        .then(data => {
+          // console.log('JSON data:', data);
+          setEventsReg(data);
+          // Здесь вы можете сохранить данные в переменную или выполнить другие действия
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+
+    loadData();
+  }, []);
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <EventListScreen events={eventsReg}/>
     </div>
   );
 }

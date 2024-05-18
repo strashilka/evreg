@@ -3,6 +3,10 @@
   min-width: 400px;
 }
 
+.search-block {
+  margin-left: 10px;
+}
+
 .row {
   display: flex;
   flex-direction: row;

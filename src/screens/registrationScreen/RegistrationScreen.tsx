@@ -12,13 +12,13 @@ import axios from 'axios';
 import {EventReg} from '../../date/EventReg';
 import AppConst from '../../date/Consts';
 
-function RegistrationScreen({evnt, onSave, onCancel}: { evnt: EventReg, onSave: () => void, onCancel: () => void }) {
+function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave: () => void, onCancel: () => void }) {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     from: '',
     date: new Date(),
-    eventId: evnt.id
+    eventId: event.id
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -30,9 +30,39 @@ function RegistrationScreen({evnt, onSave, onCancel}: { evnt: EventReg, onSave: 
     }));
   };
 
+  function checkFormFill() {
+    let isFillCorrect = true;
+    if (formData.name.trim().length === 0) {
+      setError('Please, fill Full name');
+      isFillCorrect = false;
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(formData.email)) {
+      setError('Check you email');
+      isFillCorrect = false;
+    }
+
+    const today = new Date();
+    const eighteenYearsAgo = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+
+    if (formData.date > eighteenYearsAgo) {
+      setError('Check birthday, you must be 18 years');
+      isFillCorrect = false;
+    }
+
+    return isFillCorrect;
+  }
+
   const handleSubmit = async (e: FormEvent) => {
-    console.log('handleSubmit');
     e.preventDefault();
+    setError('');
+
+    if (!checkFormFill()) {
+      console.log('EXIT');
+      return;
+    }
+    
+    console.log('handleSubmit');
     setLoading(true);
     setError('Loading');
     // console.log(formData);
@@ -64,11 +94,11 @@ function RegistrationScreen({evnt, onSave, onCancel}: { evnt: EventReg, onSave: 
     <div className={'container'}>
       <Title>Event Registration</Title>
       <form onSubmit={handleSubmit}>
-        <LabelText text={'Full name'}/>
-        <InputField placeholder={'Petro Peresunko'} name={'name'} value={formData.name} onChange={handleChange}/>
-        <LabelText text={'Email'}/>
+        <LabelText text={'Full name'} isRequired={true}/>
+        <InputField placeholder={'Petro Less'} name={'name'} value={formData.name} onChange={handleChange}/>
+        <LabelText text={'Email'} isRequired={true}/>
         <InputField placeholder={'me@mynet.ua'} name={'email'} value={formData.email} onChange={handleChange}/>
-        <LabelText text={'Date of birth'}/>
+        <LabelText text={'Date of birth'} isRequired={true}/>
         <DatePicker className={'date-field'} selected={formData.date} onChange={(date: Date) => {
           console.log(date);
           // const timestamp = Date.parse(date);

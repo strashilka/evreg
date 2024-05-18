@@ -1,5 +1,6 @@
 import './EventGridTile.css';
 import {EventReg} from '../../date/EventReg';
+import {formatDate} from '../../date/Utils';
 
 function EventGridTile({ev, onRegistrationClick, onViewClick}: {
   ev: EventReg,
@@ -11,6 +12,7 @@ function EventGridTile({ev, onRegistrationClick, onViewClick}: {
     <div className='event-container'>
       <p className="event-title">{ev.title}</p>
       <p className="description">{ev.description}</p>
+      <p className="event-title">{ev.organizer}, {formatDate(ev.date)}</p>
       <div className="links-container">
         <button className={'link'} onClick={() => {
           onRegistrationClick(ev);

@@ -1,16 +1,30 @@
 import Title from '../../components/title/Title';
 import EventGridTile from '../../components/eventGridTile/EventGridTile';
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Modal from '../../components/modal/Modal';
 import RegistrationScreen from '../registrationScreen/RegistrationScreen';
 import ParticipantsScreen from '../participantsScreen/ParticipantsScreen';
 import {EventReg} from '../../date/EventReg';
-import './EventListScreen.css';
+import {sortEventsBy} from './SortEvents';
+import './EventBoardScreen.css';
 
-function EventListScreen({events}: { events: EventReg[] | [] }) {
+function EventBoardScreen({events}: { events: EventReg[] | [] }) {
   const [isRegistrationVisible, setIsRegistrationVisible] = useState(false);
   const [isParticipantsVisible, setIsParticipantsVisible] = useState(false);
   const [currentEvent, setCurrentEvent] = useState<EventReg | null>(null);
+  const [sortBy, setSortBy] = useState('none');
+  const [isSortAsc, setIsSortAsc] = useState(true);
+
+  useEffect(() => {
+
+    if (sortBy !== 'none') {
+      console.log('SORT ' + sortBy + ' ' + isSortAsc);
+      // let res =
+      sortEventsBy(events, sortBy, isSortAsc);
+      // events= res;
+      console.log(events[0].title);
+    }
+  }, [sortBy, isSortAsc]);
 
   function closeModal() {
     setIsRegistrationVisible(false);
@@ -18,9 +32,37 @@ function EventListScreen({events}: { events: EventReg[] | [] }) {
     setCurrentEvent(null);
   }
 
+  function toggleRegistration(ev: EventReg) {
+    setIsRegistrationVisible((prevState) => !prevState);
+  }
+
+  function setSortDirection(field: string) {
+    setSortBy(field);
+    setIsSortAsc((prevState) => !prevState);
+  }
+
+  // console.log(sortBy + " " + isSortAsc)
+
   return (
     <>
       <Title>Events</Title>
+      <div className={'sort-block'}>Sort by:
+        <a href="#" onClick={() => {
+          setSortDirection('title');
+        }}>
+          title {isSortAsc && sortBy === 'title' ? '\u2191' : sortBy === 'title' ? '\u2193' : ''}
+        </a>&nbsp;
+        <a href={'#'} onClick={() => {
+          setSortDirection('date');
+        }}>
+          date {(isSortAsc && sortBy === 'date') ? '\u2191' : (sortBy === 'date') ? '\u2193' : ''}
+        </a>&nbsp;
+        <a href={'#'} onClick={() => {
+          setSortDirection('organizer');
+        }}>
+          organizer {(isSortAsc && sortBy === 'organizer') ? '\u2191' : (sortBy === 'organizer') ? '\u2193' : ''}
+        </a> &nbsp;
+      </div>
       {events.length === 0 ? (
         <div>No data</div>
       ) : (
@@ -45,7 +87,7 @@ function EventListScreen({events}: { events: EventReg[] | [] }) {
       )}
 
       {isRegistrationVisible && currentEvent && (<Modal>
-        <RegistrationScreen evnt={currentEvent} onSave={closeModal} onCancel={closeModal}/>
+        <RegistrationScreen event={currentEvent} onSave={closeModal} onCancel={closeModal}/>
       </Modal>)}
 
       {isParticipantsVisible && currentEvent && (<Modal>
@@ -55,4 +97,4 @@ function EventListScreen({events}: { events: EventReg[] | [] }) {
   );
 }
 
-export default EventListScreen;
+export default EventBoardScreen;

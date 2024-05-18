@@ -1,0 +1,29 @@
+.container {
+  width: 50%;
+  min-width: 400px;
+}
+
+.search-block {
+  margin-left: 10px;
+}
+
+.row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-left: 10px;
+}
+
+.date-field {
+  margin-left: 10px;
+}
+
+.buttons-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.buttons-container button {
+  margin: 5px;
+}

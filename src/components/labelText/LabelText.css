@@ -1,0 +1,9 @@
+.text {
+  color: black;
+  margin: 0 0 0 10px;
+  font-size: 14px;
+}
+
+.text span {
+  color: red;
+}

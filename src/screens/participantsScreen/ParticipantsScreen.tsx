@@ -6,6 +6,7 @@ import AppConst from '../../date/Consts';
 import {EventUser} from '../../date/EventUser';
 import ErrorMessage from '../../components/errorMessage/ErrorMessage';
 import './ParticipantsScreen.css';
+import LineChart from "../../components/lineChart/LineChart";
 
 function ParticipantsScreen({event, onClose}: { event: EventReg, onClose: () => void }) {
   const [participants, setParticipants] = useState<EventUser[] | []>([]);
@@ -29,12 +30,14 @@ function ParticipantsScreen({event, onClose}: { event: EventReg, onClose: () => 
         setLoading(false);
         if (r.status === 200) {
           const data = r.data
-          console.log(data)
+          // console.log(data)
           const p = [];
           for (const key in data) {
             if (Object.prototype.hasOwnProperty.call(data, key)) { // Проверяем, является ли свойство собственным
               const participant: EventUser = data[key];
               participant['id'] = key;
+              participant.registration = new Date(participant['registration'])
+              // console.log(participant)
               p.push(participant)
             }
           }
@@ -68,21 +71,27 @@ function ParticipantsScreen({event, onClose}: { event: EventReg, onClose: () => 
     setSearchText(value);
   }
 
-  return <div className={'container'}>
+  return <div className={'screen-container'}>
     <Title>&#34;{event.title}&#34; participants</Title>
-    <div className={'search-block'}><p>Search: <input name={'search-text'} value={searchText}
-                                                      onChange={(t: ChangeEvent<HTMLInputElement>) => {
-                                                        console.log(t);
-                                                        const {value} = t.target;
-                                                        search(value);
-                                                      }}/></p></div>
+    <div className={'search-block'}><p>Search name or e-mail: <input name={'search-text'} value={searchText}
+                                                                     onChange={(t: ChangeEvent<HTMLInputElement>) => {
+                                                                       console.log(t);
+                                                                       const {value} = t.target;
+                                                                       search(value);
+                                                                     }}/></p></div>
     <div className={'participants-container'}>
       {visibleParticipants.map((participant) => (
         <div key={participant.id} className={'participant'}>
           <p>{participant.name}</p>
           <p>{participant.email}</p>
+          <p>{participant.registration.getDate()}.
+            {participant.registration.getMonth() + 1}.
+            {participant.registration.getFullYear()}</p>
         </div>
       ))}
+    </div>
+    <div>
+      <LineChart participants={participants}/>
     </div>
     <div className={'row'}>
       {loading && (<ErrorMessage text={error}/>)}

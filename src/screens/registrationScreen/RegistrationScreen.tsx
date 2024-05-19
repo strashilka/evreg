@@ -17,6 +17,7 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
     email: '',
     from: '',
     date: new Date(),
+    registration: new Date(),
     eventId: event.id
   });
   const [loading, setLoading] = useState(false);

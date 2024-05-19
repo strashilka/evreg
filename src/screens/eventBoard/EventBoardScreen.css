@@ -13,10 +13,7 @@
   height: 100%;
   display: flex;
   flex: 1;
-  /*max-height: 310px;*/
   overflow: hidden;
-  /*overflow-x: auto;*/
-  background-color: yellow;
 }
 
 .events-list-container {

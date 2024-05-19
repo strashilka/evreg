@@ -4,13 +4,12 @@ import InputField from '../../components/inputField/InputField';
 import RadioBox from '../../components/radioBox/RadioBox';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
-import './RegistrationScreen.css';
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import ErrorMessage from '../../components/errorMessage/ErrorMessage';
 import axios from 'axios';
 import {EventReg} from '../../date/EventReg';
 import AppConst from '../../date/Consts';
+import './RegistrationScreen.css';
 
 function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave: () => void, onCancel: () => void }) {
   const [formData, setFormData] = useState({
@@ -18,6 +17,7 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
     email: '',
     from: '',
     date: new Date(),
+    registration: new Date(),
     eventId: event.id
   });
   const [loading, setLoading] = useState(false);
@@ -53,6 +53,11 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
     return isFillCorrect;
   }
 
+  const handleCancel = async (e: FormEvent) => {
+    e.preventDefault();
+    onCancel();
+  }
+
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
     setError('');
@@ -61,7 +66,7 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
       console.log('EXIT');
       return;
     }
-    
+
     console.log('handleSubmit');
     setLoading(true);
     setError('Loading');
@@ -70,7 +75,7 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
     const data = JSON.stringify(formData);
     console.log('before');
     try {
-      axios.post(AppConst.endpoint, data).then((r) => {
+      axios.post(AppConst.participantsEndpoint, data).then((r) => {
         setLoading(false);
         if (r.status === 200) {
           //ok
@@ -111,12 +116,13 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
         <LabelText text={'Where did you here about the event?'}/>
         <div className={'row'}>
           <RadioBox values={['Social media', 'Friends', 'Found myself']} name={'from'} value={formData.from}
-            onChange={handleChange}/>
+                    onChange={handleChange}/>
         </div>
         <div className={'buttons-container'}>
           {loading || error !== '' ? <ErrorMessage text={error}/> : <ErrorMessage text=" "/>}
           <button onClick={handleSubmit} type={'submit'}>Save</button>
-          <button onClick={onCancel}>Cancel</button>
+          <button onClick={handleCancel}>Cancel
+          </button>
         </div>
       </form>
     </div>

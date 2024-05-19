@@ -1,21 +1,21 @@
 import {EventReg} from '../../date/EventReg';
 
 export function sortEventsBy(ev_array: EventReg[], field: string, isAsc = true) {
+
+  let sortedEvents = [...ev_array];
+
   if (field === 'title') {
-    ev_array.sort(compareByTitle);
+    sortedEvents.sort(compareByTitle);
   } else if (field === 'date') {
-    ev_array.sort(compareByDate);
+    sortedEvents.sort(compareByDate);
   } else if (field === 'organizer') {
-    // console.log("organizer")
-    ev_array.sort(compareByOrganizer);
-  } else {
-    console.log('NONE-------------');
+    sortedEvents.sort(compareByOrganizer);
+  }
+  if (!isAsc) {
+    sortedEvents.reverse();
   }
 
-  if (!isAsc) ev_array.reverse();
-
-  // return ev_array;
-
+  return sortedEvents;
 }
 
 

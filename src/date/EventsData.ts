@@ -1,4 +1,6 @@
-const Events = [
+import {EventReg} from "./EventReg";
+
+const events_json = [
   {
     "id": "6647191aa5b5f0a94c210932",
     "title": "First conference",
@@ -218,4 +220,9 @@ const Events = [
   }
 ]
 
-export default Events
+const EventsData: EventReg[] = events_json.map(event => ({
+  ...event,
+  date: new Date(event.date)
+}));
+
+export default EventsData;

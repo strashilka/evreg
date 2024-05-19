@@ -4,13 +4,12 @@ import InputField from '../../components/inputField/InputField';
 import RadioBox from '../../components/radioBox/RadioBox';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-
-import './RegistrationScreen.css';
 import React, {ChangeEvent, FormEvent, useState} from 'react';
 import ErrorMessage from '../../components/errorMessage/ErrorMessage';
 import axios from 'axios';
 import {EventReg} from '../../date/EventReg';
 import AppConst from '../../date/Consts';
+import './RegistrationScreen.css';
 
 function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave: () => void, onCancel: () => void }) {
   const [formData, setFormData] = useState({
@@ -51,6 +50,11 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
     }
 
     return isFillCorrect;
+  }
+
+  const handleCancel = async (e: FormEvent) => {
+    e.preventDefault();
+    onCancel();
   }
 
   const handleSubmit = async (e: FormEvent) => {
@@ -116,7 +120,8 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
         <div className={'buttons-container'}>
           {loading || error !== '' ? <ErrorMessage text={error}/> : <ErrorMessage text=" "/>}
           <button onClick={handleSubmit} type={'submit'}>Save</button>
-          <button onClick={onCancel}>Cancel</button>
+          <button onClick={handleCancel}>Cancel
+          </button>
         </div>
       </form>
     </div>

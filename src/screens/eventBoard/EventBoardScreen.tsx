@@ -44,24 +44,26 @@ function EventBoardScreen({events}: { events: EventReg[] | [] }) {
   // console.log(sortBy + " " + isSortAsc)
 
   return (
-    <>
-      <Title>Events</Title>
-      <div className={'sort-block'}>Sort by:
-        <a href="#" onClick={() => {
-          setSortDirection('title');
-        }}>
-          title {isSortAsc && sortBy === 'title' ? '\u2191' : sortBy === 'title' ? '\u2193' : ''}
-        </a>&nbsp;
-        <a href={'#'} onClick={() => {
-          setSortDirection('date');
-        }}>
-          date {(isSortAsc && sortBy === 'date') ? '\u2191' : (sortBy === 'date') ? '\u2193' : ''}
-        </a>&nbsp;
-        <a href={'#'} onClick={() => {
-          setSortDirection('organizer');
-        }}>
-          organizer {(isSortAsc && sortBy === 'organizer') ? '\u2191' : (sortBy === 'organizer') ? '\u2193' : ''}
-        </a> &nbsp;
+    <div className={"event-board-container"}>
+      <div className={"header"}>
+        <Title>Events</Title>
+        <div className={'sort-block'}>Sort by:
+          <a href="#" onClick={() => {
+            setSortDirection('title');
+          }}>
+            title {isSortAsc && sortBy === 'title' ? '\u2191' : sortBy === 'title' ? '\u2193' : ''}
+          </a>&nbsp;
+          <a href={'#'} onClick={() => {
+            setSortDirection('date');
+          }}>
+            date {(isSortAsc && sortBy === 'date') ? '\u2191' : (sortBy === 'date') ? '\u2193' : ''}
+          </a>&nbsp;
+          <a href={'#'} onClick={() => {
+            setSortDirection('organizer');
+          }}>
+            organizer {(isSortAsc && sortBy === 'organizer') ? '\u2191' : (sortBy === 'organizer') ? '\u2193' : ''}
+          </a> &nbsp;
+        </div>
       </div>
       {events.length === 0 ? (
         <div>No data</div>
@@ -93,7 +95,7 @@ function EventBoardScreen({events}: { events: EventReg[] | [] }) {
       {isParticipantsVisible && currentEvent && (<Modal>
         <ParticipantsScreen event={currentEvent} onClose={closeModal}/>
       </Modal>)}
-    </>
+    </div>
   );
 }
 

@@ -18,23 +18,24 @@ function ParticipantsScreen({event, onClose}: { event: EventReg, onClose: () => 
     setLoading(true);
     setError('Loading');
 
+    // https://rebus-411ca-default-rtdb.europe-west1.firebasedatabase.app/events.json?eventId=6647191a3c5735de10b7dfdf&print=pretty&orderBy=%22eventId%22&limitToLast=10&equalTo=%226647191a3c5735de10b7dfdf%22
     try {
       axios.get(AppConst.endpoint, {
         params: {
-          page: 1,
-          limit: 100,
-          filter: 'name'
+          orderBy: '"eventId"',
+          equalTo: '"' + event.id + '"'
         }
       }).then((r) => {
         setLoading(false);
         if (r.status === 200) {
-          const data = r.data;
+          const data = r.data
+          console.log(data)
           const p = [];
           for (const key in data) {
             if (Object.prototype.hasOwnProperty.call(data, key)) { // Проверяем, является ли свойство собственным
               const participant: EventUser = data[key];
               participant['id'] = key;
-              if (participant.eventId === event.id) p.push(participant);
+              p.push(participant)
             }
           }
           setParticipants(p);
@@ -70,11 +71,11 @@ function ParticipantsScreen({event, onClose}: { event: EventReg, onClose: () => 
   return <div className={'container'}>
     <Title>&#34;{event.title}&#34; participants</Title>
     <div className={'search-block'}><p>Search: <input name={'search-text'} value={searchText}
-      onChange={(t: ChangeEvent<HTMLInputElement>) => {
-        console.log(t);
-        const {value} = t.target;
-        search(value);
-      }}/></p></div>
+                                                      onChange={(t: ChangeEvent<HTMLInputElement>) => {
+                                                        console.log(t);
+                                                        const {value} = t.target;
+                                                        search(value);
+                                                      }}/></p></div>
     <div className={'participants-container'}>
       {visibleParticipants.map((participant) => (
         <div key={participant.id} className={'participant'}>

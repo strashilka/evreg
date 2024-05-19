@@ -46,9 +46,9 @@ function App() {
 
 
   return (
-    <div className="App">
+    <>
       <EventBoardScreen events={eventsReg}/>
-    </div>
+    </>
   );
 }
 

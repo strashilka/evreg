@@ -23,9 +23,9 @@ function App() {
             if (Object.prototype.hasOwnProperty.call(data, dataKey)) { // Проверяем, является ли свойство собственным
               const event: EventReg = data[dataKey];
               const dateString = data[dataKey]['date'];
-              console.log(dateString);
+              // console.log(dateString);
               event.date = new Date(dateString);
-              console.log(event);
+              // console.log(event);
               // console.log(participant.eventId + ' ' + event.id);
               // if (participant.eventId === event.id) p.push(participant);
               // console.log(participant)
@@ -34,7 +34,7 @@ function App() {
           }
           setEventsReg(events);
           console.log(data);
-          // Здесь вы можете сохранить данные в переменную или выполнить другие действия
+
         })
         .catch(error => {
           console.error('Error:', error);

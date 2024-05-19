@@ -61,7 +61,7 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
       console.log('EXIT');
       return;
     }
-    
+
     console.log('handleSubmit');
     setLoading(true);
     setError('Loading');
@@ -70,7 +70,7 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
     const data = JSON.stringify(formData);
     console.log('before');
     try {
-      axios.post(AppConst.endpoint, data).then((r) => {
+      axios.post(AppConst.participantsEndpoint, data).then((r) => {
         setLoading(false);
         if (r.status === 200) {
           //ok
@@ -111,7 +111,7 @@ function RegistrationScreen({event, onSave, onCancel}: { event: EventReg, onSave
         <LabelText text={'Where did you here about the event?'}/>
         <div className={'row'}>
           <RadioBox values={['Social media', 'Friends', 'Found myself']} name={'from'} value={formData.from}
-            onChange={handleChange}/>
+                    onChange={handleChange}/>
         </div>
         <div className={'buttons-container'}>
           {loading || error !== '' ? <ErrorMessage text={error}/> : <ErrorMessage text=" "/>}

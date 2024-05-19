@@ -20,7 +20,7 @@ function ParticipantsScreen({event, onClose}: { event: EventReg, onClose: () => 
 
     // https://rebus-411ca-default-rtdb.europe-west1.firebasedatabase.app/events.json?eventId=6647191a3c5735de10b7dfdf&print=pretty&orderBy=%22eventId%22&limitToLast=10&equalTo=%226647191a3c5735de10b7dfdf%22
     try {
-      axios.get(AppConst.endpoint, {
+      axios.get(AppConst.participantsEndpoint, {
         params: {
           orderBy: '"eventId"',
           equalTo: '"' + event.id + '"'

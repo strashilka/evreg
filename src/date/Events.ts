@@ -1,4 +1,4 @@
-[
+const Events = [
   {
     "id": "6647191aa5b5f0a94c210932",
     "title": "First conference",
@@ -217,3 +217,5 @@
     "organizer": "Elita"
   }
 ]
+
+export default Events
